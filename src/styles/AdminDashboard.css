@@ -1,0 +1,186 @@
+.dashboard-page {
+  padding: 40px;
+  min-height: 100vh;
+  /* Updated gradient for more depth */
+  background: radial-gradient(circle at top left, #1e293b, #0f172a);
+  color: #f1f5f9;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* --- Header Section --- */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+}
+
+.page-header h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -1px;
+}
+
+.page-header p {
+  color: #94a3b8;
+  font-size: 1rem;
+  margin-top: 4px;
+}
+
+/* --- Summary Cards Grid --- */
+.summary-grid {
+  display: grid;
+  /* grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.summary-card {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px); /* Glassmorphism */
+  padding: 32px 24px;
+  border-radius: 20px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.summary-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 4px;
+  background: #3b82f6; /* Accent bar */
+  opacity: 0.5;
+}
+
+.summary-card:hover {
+  transform: translateY(-8px);
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.summary-card h3 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1;
+}
+
+.summary-card p {
+  margin-top: 12px;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+/* Alert State Variation */
+.summary-card.alert {
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(127, 29, 29, 0.2);
+}
+
+.summary-card.alert::before {
+  background: #ef4444;
+}
+
+.summary-card.alert h3 {
+  color: #fca5a5;
+  text-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+/* --- Main Section Cards --- */
+.card {
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(8px);
+  padding: 30px;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card h2 {
+  margin-bottom: 24px;
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* --- Row Item Styling --- */
+.overview-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.95rem;
+}
+
+.overview-row:last-child {
+  border-bottom: none;
+}
+
+.status-active {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* --- Activity List Enhancements --- */
+.activity-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.activity-list li {
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  margin-bottom: 12px;
+  border: 1px solid transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.activity-list li:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 1024px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}

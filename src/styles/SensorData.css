@@ -1,0 +1,131 @@
+.sensor-page {
+  padding: 40px;
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, #1e293b, #0f172a);
+  color: #f8fafc;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.sensor-header h1 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+  background: linear-gradient(to right, #ffffff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sensor-header p {
+  color: #64748b;
+  margin-bottom: 40px;
+}
+
+/* Card Styling with High Contrast */
+.sensor-card {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(12px);
+  padding: 32px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  transition: all 0.5s ease;
+}
+
+.sensor-card.is-flashing {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+/* Typography Improvements */
+.sensor-card h2 {
+  font-size: 1.1rem;
+  color: #ffffff; /* High contrast white */
+  margin: 0;
+  font-weight: 500;
+}
+
+.status-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 6px;
+  margin-top: 8px;
+  display: inline-block;
+}
+
+.status-badge.normal { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+.status-badge.warning { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+.status-badge.critical { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+
+.value-display {
+  margin: 20px 0;
+  display: flex;
+  align-items: baseline;
+}
+
+.value-display .number {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #ffffff; /* Maximum readability */
+  letter-spacing: -2px;
+}
+
+.value-display .unit {
+  font-size: 1.5rem;
+  color: #3b82f6;
+  margin-left: 8px;
+  font-weight: 600;
+}
+
+/* Footer & Status */
+.sensor-footer {
+  margin-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 16px;
+}
+
+.update-status {
+  display: flex;
+  align-items: center;
+  color: #94a3b8; /* Lighter grey for readable timestamps */
+  font-size: 0.85rem;
+}
+
+.update-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  margin-right: 10px;
+  box-shadow: 0 0 8px #10b981;
+}
+
+/* Trend Icons */
+.trend-indicator {
+  margin-left: 10px;
+  font-weight: bold;
+}
+.trend-indicator.up { color: #ef4444; }
+.trend-indicator.down { color: #3b82f6; }
+.trend-indicator.neutral { color: #64748b; }
+
+/* Visual Icon Pulse */
+.icon-wrapper {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.05);
+  border-radius: 50%;
+}
+
+.status-icon {
+  font-size: 2rem;
+  z-index: 2;
+}

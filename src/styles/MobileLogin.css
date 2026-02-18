@@ -1,0 +1,105 @@
+/* Full mobile app layout */
+.mobile-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f1f5f9;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* App Header */
+.mobile-header {
+  background: #1e293b;
+  color: white;
+  padding: 18px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Content area */
+.mobile-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Login card */
+.mobile-card {
+  width: 100%;
+  max-width: 350px;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Title */
+.mobile-card h2 {
+  margin-bottom: 5px;
+  color: #1e293b;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+/* Inputs */
+.mobile-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 12px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+.mobile-card input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Button */
+.mobile-card button {
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  border: none;
+  background: #3b82f6;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.mobile-card button:hover {
+  background: #2563eb;
+}
+
+/* Error message */
+.error-text {
+  color: #ef4444;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+/* Smooth fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

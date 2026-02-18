@@ -1,0 +1,57 @@
+.dashboard-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  padding: 30px 20px;
+  font-family: "Segoe UI", sans-serif;
+  color: white;
+  text-align: center;
+}
+
+.dashboard-title {
+  margin-bottom: 5px;
+  font-size: 22px;
+}
+
+.dashboard-subtitle {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 30px;
+}
+
+/* Card */
+.status-card {
+  background: #ffffff;
+  color: #1e293b;
+  border-radius: 18px;
+  padding: 30px 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  max-width: 320px;
+  margin: auto;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Temperature */
+.temp-value {
+  font-size: 40px;
+  font-weight: bold;
+  color: #3b82f6;
+  margin-bottom: 5px;
+  animation: pulse 2s infinite;
+}
+
+.temp-label {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
