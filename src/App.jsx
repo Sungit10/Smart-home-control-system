@@ -1,25 +1,33 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainPage from "./pages/MainPage";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import AdminLogin from "./admin/AdminLogin";
 import AdminLayout from "./admin/AdminLayout";
-import UserLogin from "./mobile/UserLogin";
-import UserDashboard from "./mobile/UserDashboard";
+import AdminDashboard from "./admin/AdminDashboard";
+import DeviceManagement from "./admin/DeviceManagement";
+import SensorData from "./admin/SensorData";
+import AlertConfig from "./admin/AlertConfig";
+import AddDevice from "./admin/AddDevice";
 import "./App.css";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Main selector page */}
-        <Route path="/" element={<MainPage />} />
 
-        {/* Admin Routes */}
+        {/* Default route */}
+        <Route path="/" element={<Navigate to="/admin" />} />
+
+        {/* Admin Login */}
         <Route path="/admin" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<AdminLayout />} />
 
-        {/* Mobile/User Routes */}
-        <Route path="/mobile" element={<UserLogin />} />
-        <Route path="/mobile/dashboard" element={<UserDashboard />} />
+        {/* Admin Pages */}
+        <Route path="/admin/dashboard" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="devices" element={<DeviceManagement />} />
+          <Route path="sensor" element={<SensorData />} />
+          <Route path="alerts" element={<AlertConfig />} />
+          <Route path="add-device" element={<AddDevice />} />
+        </Route>
+
       </Routes>
     </Router>
   );

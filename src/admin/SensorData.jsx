@@ -1,76 +1,106 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import "../styles/SensorData.css";
 
 function SensorData() {
-  const [temperature, setTemperature] = useState(25.0);
-  const [lastUpdated, setLastUpdated] = useState(new Date());
-  const [trend, setTrend] = useState("neutral");
-  const [isUpdating, setIsUpdating] = useState(false);
+  const [data, setData] = useState([]);
+  const [filter, setFilter] = useState("daily");
+
+  /* ============================= */
+  /* GENERATE REAL-TIME DATA */
+  /* ============================= */
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTemperature((prev) => {
-        const change = (Math.random() * 1.4 - 0.7);
-        const nextTemp = Number((prev + change).toFixed(1));
-        setTrend(nextTemp > prev ? "up" : nextTemp < prev ? "down" : "neutral");
-        return nextTemp;
+      setData((prevData) => {
+        const newEntry = {
+          time: new Date().toLocaleTimeString(),
+          temperature: Number((20 + Math.random() * 10).toFixed(1)),
+          humidity: Number((40 + Math.random() * 30).toFixed(1)),
+          motion: Math.floor(Math.random() * 2),
+          power: Number((100 + Math.random() * 50).toFixed(1)),
+        };
+
+        const updatedData = [...prevData, newEntry];
+
+        // Keep only last 20 points for smooth real-time chart
+        return updatedData.slice(-20);
       });
-      
-      setLastUpdated(new Date());
-      setIsUpdating(true);
-      const timer = setTimeout(() => setIsUpdating(false), 800);
-      return () => clearTimeout(timer);
     }, 3000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const statusInfo = useMemo(() => {
-    if (temperature <= 28) return { label: "Normal", class: "normal", icon: "🌡️" };
-    if (temperature <= 32) return { label: "Warning", class: "warning", icon: "⚠️" };
-    return { label: "Critical", class: "critical", icon: "🚨" };
-  }, [temperature]);
+  /* ============================= */
+  /* EXPORT TO CSV */
+  /* ============================= */
+
+  const exportCSV = () => {
+    const headers = ["Time", "Temperature", "Humidity", "Motion", "Power"];
+    const rows = data.map((row) =>
+      [row.time, row.temperature, row.humidity, row.motion, row.power].join(",")
+    );
+
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers.join(","), ...rows].join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "sensor_data.csv");
+    document.body.appendChild(link);
+    link.click();
+  };
 
   return (
     <div className="sensor-page">
       <header className="sensor-header">
-        <h1>Live Monitoring</h1>
-        <p>Real-time environment telemetry</p>
+        <h1>Sensor Data Visualization</h1>
+        <p>Real-time IoT Monitoring Dashboard</p>
       </header>
 
-      <div className={`sensor-card ${statusInfo.class} ${isUpdating ? 'is-flashing' : ''}`}>
-        <div className="sensor-visual">
-          <div className="icon-wrapper">
-             <span className="status-icon">{statusInfo.icon}</span>
-            <div className={`pulse-ring ${statusInfo.class}`}></div>
-          </div>
-        </div>
+      {/* FILTER + EXPORT */}
+      <div className="sensor-controls">
+        <select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        >
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+        </select>
 
-        <div className="sensor-content">
-          <div className="label-group">
-            <div className="title-area">
-              <h2>Ambient Temperature</h2>
-              <span className={`trend-indicator ${trend}`}>
-                {trend === "up" ? "↑" : trend === "down" ? "↓" : "—"}
-              </span>
-            </div>
-            <span className={`status-badge ${statusInfo.class}`}>
-              {statusInfo.label}
-            </span>
-          </div>
+        <button onClick={exportCSV} className="export-btn">
+          Export CSV
+        </button>
+      </div>
 
-          <div className="value-display">
-            <span className="number">{temperature.toFixed(1)}</span>
-            <span className="unit">°C</span>
-          </div>
+      {/* CHART */}
+      <div className="chart-container">
+        <ResponsiveContainer width="100%" height={400}>
+          <LineChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="time" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
 
-          <footer className="sensor-footer">
-            <div className="update-status">
-              <span className="update-dot animate"></span>
-              <span>Updated: {lastUpdated.toLocaleTimeString()}</span>
-            </div>
-          </footer>
-        </div>
+            <Line type="monotone" dataKey="temperature" stroke="#ef4444" />
+            <Line type="monotone" dataKey="humidity" stroke="#3b82f6" />
+            <Line type="monotone" dataKey="motion" stroke="#22c55e" />
+            <Line type="monotone" dataKey="power" stroke="#f59e0b" />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );

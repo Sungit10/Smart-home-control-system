@@ -1,66 +1,56 @@
-import { useState } from "react";
-import AdminDashboard from "./AdminDashboard";
-import DeviceManagement from "./DeviceManagement";
-import SensorData from "./SensorData";
-import AlertConfig from "./AlertConfig";
+import { NavLink, Outlet } from "react-router-dom";
 import "../styles/AdminLayout.css";
 
 function AdminLayout() {
-  const [activePage, setActivePage] = useState("dashboard");
-
-  const renderPage = () => {
-    switch (activePage) {
-      case "devices":
-        return <DeviceManagement />;
-      case "sensor":
-        return <SensorData />;
-      case "alerts":
-        return <AlertConfig />;
-      default:
-        return <AdminDashboard />;
-    }
-  };
-
   return (
     <div className="admin-layout">
 
       {/* Sidebar */}
       <aside className="admin-sidebar">
-        <h2>pelep san </h2>
+        <h2>pelep san</h2>
 
-        <button
-          className={`nav-btn ${activePage === "dashboard" ? "active" : ""}`}
-          onClick={() => setActivePage("dashboard")}
+        <NavLink
+          to="/admin/dashboard"
+          end
+          className={({ isActive }) =>
+            isActive ? "nav-btn active" : "nav-btn"
+          }
         >
           Dashboard
-        </button>
+        </NavLink>
 
-        <button
-          className={`nav-btn ${activePage === "devices" ? "active" : ""}`}
-          onClick={() => setActivePage("devices")}
+        <NavLink
+          to="/admin/dashboard/devices"
+          className={({ isActive }) =>
+            isActive ? "nav-btn active" : "nav-btn"
+          }
         >
           Devices
-        </button>
+        </NavLink>
 
-        <button
-          className={`nav-btn ${activePage === "sensor" ? "active" : ""}`}
-          onClick={() => setActivePage("sensor")}
+        <NavLink
+          to="/admin/dashboard/sensor"
+          className={({ isActive }) =>
+            isActive ? "nav-btn active" : "nav-btn"
+          }
         >
           Sensor Data
-        </button>
+        </NavLink>
 
-        <button
-          className={`nav-btn ${activePage === "alerts" ? "active" : ""}`}
-          onClick={() => setActivePage("alerts")}
+        <NavLink
+          to="/admin/dashboard/alerts"
+          className={({ isActive }) =>
+            isActive ? "nav-btn active" : "nav-btn"
+          }
         >
           Alert Settings
-        </button>
+        </NavLink>
       </aside>
 
       {/* Main Area */}
       <div className="admin-main">
         <div className="admin-content">
-          {renderPage()}
+          <Outlet />
         </div>
       </div>
 

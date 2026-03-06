@@ -1,36 +1,29 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/DeviceManagement.css";
 
 function DeviceManagement() {
+  const navigate = useNavigate();
+
   const [devices, setDevices] = useState([
     { id: 1, name: "Living Room Light", status: "Online" },
     { id: 2, name: "Front Door", status: "Offline" },
   ]);
 
-  const [newDevice, setNewDevice] = useState("");
-
-  const addDevice = () => {
-    if (!newDevice.trim()) return;
-
-    setDevices([
-      ...devices,
-      { id: Date.now(), name: newDevice, status: "Online" },
-    ]);
-
-    setNewDevice("");
-  };
-
+  // REMOVE DEVICE
   const removeDevice = (id) => {
-    setDevices(devices.filter((device) => device.id !== id));
+    setDevices((prev) => prev.filter((device) => device.id !== id));
   };
 
+  // TOGGLE STATUS
   const toggleStatus = (id) => {
-    setDevices(
-      devices.map((device) =>
+    setDevices((prev) =>
+      prev.map((device) =>
         device.id === id
           ? {
               ...device,
-              status: device.status === "Online" ? "Offline" : "Online",
+              status:
+                device.status === "Online" ? "Offline" : "Online",
             }
           : device
       )
@@ -41,18 +34,18 @@ function DeviceManagement() {
     <div className="device-page">
       <h1>Device Management</h1>
 
+      {/* Add Device Button */}
       <div className="device-input-group">
-        <input
-          type="text"
-          placeholder="Enter new device name..."
-          value={newDevice}
-          onChange={(e) => setNewDevice(e.target.value)}
-        />
-        <button className="add-btn" onClick={addDevice}>
+        <button
+          type="button"
+          className="add-btn"
+          onClick={() => navigate("/admin/dashboard/add-device")}
+        >
           Add Device
         </button>
       </div>
 
+      {/* Device Grid */}
       <div className="device-grid">
         {devices.map((device) => (
           <div key={device.id} className="device-card">
@@ -74,6 +67,7 @@ function DeviceManagement() {
 
             <div className="device-actions">
               <button
+                type="button"
                 className="toggle-btn"
                 onClick={() => toggleStatus(device.id)}
               >
@@ -81,6 +75,7 @@ function DeviceManagement() {
               </button>
 
               <button
+                type="button"
                 className="remove-btn"
                 onClick={() => removeDevice(device.id)}
               >

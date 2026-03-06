@@ -1,3 +1,7 @@
+/* ============================= */
+/* SENSOR PAGE */
+/* ============================= */
+
 .sensor-page {
   padding: 40px;
   min-height: 100vh;
@@ -16,116 +20,117 @@
 
 .sensor-header p {
   color: #64748b;
-  margin-bottom: 40px;
+  margin-bottom: 35px;
 }
 
-/* Card Styling with High Contrast */
-.sensor-card {
-  background: rgba(30, 41, 59, 0.7);
-  backdrop-filter: blur(12px);
-  padding: 32px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* ============================= */
+/* SENSOR CONTROLS */
+/* ============================= */
+
+.sensor-controls {
   display: flex;
-  gap: 24px;
-  width: 100%;
-  max-width: 480px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-  transition: all 0.5s ease;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
 }
 
-.sensor-card.is-flashing {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(59, 130, 246, 0.5);
+/* Modern Select Dropdown */
+.sensor-controls select {
+  appearance: none;
+  padding: 10px 42px 10px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(30,41,59,0.9);
+  color: #f8fafc;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  min-width: 140px;
 }
 
-/* Typography Improvements */
-.sensor-card h2 {
-  font-size: 1.1rem;
-  color: #ffffff; /* High contrast white */
-  margin: 0;
+/* Hover & Focus */
+.sensor-controls select:hover {
+  border-color: #3b82f6;
+}
+
+.sensor-controls select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.3);
+}
+
+/* Custom Arrow */
+.sensor-controls select {
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23cbd5e1' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px;
+}
+
+/* ============================= */
+/* EXPORT BUTTON */
+/* ============================= */
+
+.export-btn {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
   font-weight: 500;
+  cursor: pointer;
+  color: white;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  transition: all 0.2s ease;
 }
 
-.status-badge {
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 4px 12px;
-  border-radius: 6px;
-  margin-top: 8px;
-  display: inline-block;
+.export-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(59,130,246,0.4);
 }
 
-.status-badge.normal { background: rgba(16, 185, 129, 0.2); color: #10b981; }
-.status-badge.warning { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
-.status-badge.critical { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-
-.value-display {
-  margin: 20px 0;
-  display: flex;
-  align-items: baseline;
+.export-btn:active {
+  transform: scale(0.97);
 }
 
-.value-display .number {
-  font-size: 4rem;
-  font-weight: 800;
-  color: #ffffff; /* Maximum readability */
-  letter-spacing: -2px;
+/* ============================= */
+/* CHART CONTAINER */
+/* ============================= */
+
+.chart-container {
+  background: rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(12px);
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  transition: 0.3s ease;
 }
 
-.value-display .unit {
-  font-size: 1.5rem;
-  color: #3b82f6;
-  margin-left: 8px;
-  font-weight: 600;
+.chart-container:hover {
+  box-shadow: 0 25px 60px rgba(0,0,0,0.45);
 }
 
-/* Footer & Status */
-.sensor-footer {
-  margin-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 16px;
-}
+/* ============================= */
+/* RESPONSIVE */
+/* ============================= */
 
-.update-status {
-  display: flex;
-  align-items: center;
-  color: #94a3b8; /* Lighter grey for readable timestamps */
-  font-size: 0.85rem;
-}
+@media (max-width: 768px) {
+  .sensor-page {
+    padding: 20px;
+  }
 
-.update-dot {
-  width: 8px;
-  height: 8px;
-  background: #10b981;
-  border-radius: 50%;
-  margin-right: 10px;
-  box-shadow: 0 0 8px #10b981;
-}
+  .sensor-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-/* Trend Icons */
-.trend-indicator {
-  margin-left: 10px;
-  font-weight: bold;
-}
-.trend-indicator.up { color: #ef4444; }
-.trend-indicator.down { color: #3b82f6; }
-.trend-indicator.neutral { color: #64748b; }
+  .sensor-controls select,
+  .export-btn {
+    width: 100%;
+  }
 
-/* Visual Icon Pulse */
-.icon-wrapper {
-  position: relative;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.05);
-  border-radius: 50%;
-}
-
-.status-icon {
-  font-size: 2rem;
-  z-index: 2;
+  .chart-container {
+    padding: 20px;
+  }
 }

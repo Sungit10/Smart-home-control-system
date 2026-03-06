@@ -1,123 +1,112 @@
-/* Base Layout */
 .alert-page {
-  padding: 40px;
+  padding: 60px 40px;
   min-height: 100vh;
-  background: radial-gradient(circle at top left, #1e293b, #0f172a);
+  background: radial-gradient(circle at 20% 10%, #1e293b, #0b1220 70%);
   color: #f8fafc;
-  font-family: 'Inter', -apple-system, sans-serif;
+  font-family: 'Inter', sans-serif;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centers the card horizontally */
+  align-items: center;
 }
 
-.alert-page h1 {
-  margin-bottom: 50px;
-  font-size: rem;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  background: linear-gradient(to right, #fff, #94a3b8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-/* Card Styling */
-.alert-card {
-  background: rgba(30, 41, 59, 0.7);
-  backdrop-filter: blur(12px); /* Glassmorphism effect */
-  padding: 32px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  width: 100%;
-  max-width: 420px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-}
-
-.alert-card h2 {
-  font-size: 1.25rem;
+.page-header h1 {
+  font-size: 2rem;
   margin-bottom: 8px;
-  color: #f1f5f9;
+}
+
+.page-header p {
+  color: #94a3b8;
+}
+
+.alert-card {
+  background: rgba(17, 24, 39, 0.85);
+  backdrop-filter: blur(14px);
+  padding: 30px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  transition: transform 0.3s ease;
+}
+
+.alert-card:hover {
+  transform: translateY(-4px);
+}
+
+.alert-section {
+  margin-bottom: 30px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .description {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   color: #94a3b8;
-  margin-bottom: 24px;
+  margin: 8px 0 16px;
 }
 
-/* Input Group Customization */
 .input-group {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 10px;
 }
 
 .alert-input {
-  width: 100px;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255,255,255,0.05);
   background: #0f172a;
-  color: #3b82f6; /* Accent color for the value */
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: all 0.2s ease;
+  color: #3b82f6;
+  font-weight: bold;
+  transition: 0.3s ease;
 }
 
 .alert-input:focus {
   outline: none;
   border-color: #3b82f6;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-}
-
-/* Chrome, Safari, Edge, Opera: Remove arrows */
-.alert-input::-webkit-outer-spin-button,
-.alert-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+  box-shadow: 0 0 10px rgba(59,130,246,0.3);
 }
 
 .unit-label {
-  font-weight: 600;
   color: #64748b;
 }
 
-/* Status & Feedback */
-.status-container {
+.checkbox-group {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  min-height: 24px; /* Prevents layout jump when "Saved!" appears */
+  flex-direction: column;
+  gap: 10px;
 }
 
-.preview-text {
-  font-size: 0.9rem;
-  color: #94a3b8;
+.checkbox-group input {
+  margin-right: 8px;
 }
 
-.preview-text strong {
-  color: #3b82f6;
+.status-container {
+  min-height: 24px;
+  margin-bottom: 15px;
 }
 
 .success-badge {
-  font-size: 0.8rem;
   color: #10b981;
-  background: rgba(16, 185, 129, 0.1);
-  padding: 4px 10px;
-  border-radius: 20px;
-  animation: fadeIn 0.3s ease;
+  font-size: 0.9rem;
 }
 
-/* Button Refinement */
 .save-btn {
   width: 100%;
-  padding: 14px;
+  padding: 12px;
   border-radius: 12px;
-  font-weight: 600;
-  font-size: 1rem;
   border: none;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: bold;
+  transition: 0.3s ease;
 }
 
 .save-btn.active {
@@ -128,18 +117,88 @@
 
 .save-btn.active:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-  filter: brightness(1.1);
+  box-shadow: 0 10px 20px rgba(37,99,235,0.4);
 }
 
 .save-btn.disabled {
-  background: #334155;
+  background: #1e293b;
   color: #64748b;
   cursor: not-allowed;
-  opacity: 0.7;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ===============================
+   UPDATED PREMIUM TOGGLE SWITCH
+================================= */
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Track */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 50px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(6px);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Knob */
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+/* ON state */
+.switch input:checked + .slider {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow:
+    0 0 12px rgba(59,130,246,0.6),
+    inset 0 0 8px rgba(255,255,255,0.2);
+}
+
+/* Move knob */
+.switch input:checked + .slider:before {
+  transform: translateX(24px);
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.5),
+    0 0 10px rgba(59,130,246,0.6);
+}
+
+/* Click animation */
+.switch input:active + .slider:before {
+  width: 26px;
+}
+
+/* Hover glow */
+.switch:hover .slider {
+  box-shadow:
+    0 0 8px rgba(59,130,246,0.3),
+    inset 0 0 6px rgba(0,0,0,0.4);
+}
+
+/* Disabled state */
+.switch input:disabled + .slider {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
