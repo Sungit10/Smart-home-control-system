@@ -1,12 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
+import { Bell, Thermometer, Zap, Save, CheckCircle } from "lucide-react"; // Optional: Use an icon library
 import "../styles/AlertConfig.css";
 
-function AlertConfig() {
-  // ===== Threshold States =====
-  const [tempLimit, setTempLimit] = useState(30);
-  const [powerLimit, setPowerLimit] = useState(500);
+// --- Sub-Component: Reusable Input ---
+const ThresholdInput = ({ value, onChange, unit, disabled, min, max, step = 1 }) => (
+  <div className={`input-group ${disabled ? "is-disabled" : ""}`}>
+    <div className="custom-number-input">
+      <button 
+        type="button" 
+        className="number-btn" 
+        onClick={() => onChange(Math.max(min, value - step))}
+        disabled={disabled}
+      > − </button>
+      
+      <input
+        type="number"
+        value={value}
+        onChange={(e) => onChange(Math.min(max, Math.max(min, Number(e.target.value))))}
+        disabled={disabled}
+        className="alert-input"
+      />
+      
+      <button 
+        type="button" 
+        className="number-btn" 
+        onClick={() => onChange(Math.min(max, value + step))}
+        disabled={disabled}
+      > + </button>
+    </div>
+    <span className="unit-label">{unit}</span>
+  </div>
+);
 
-  const [savedSettings, setSavedSettings] = useState({
+function AlertConfig() {
+  const initialState = {
     tempLimit: 30,
     powerLimit: 500,
     email: true,
@@ -14,217 +41,135 @@ function AlertConfig() {
     inApp: true,
     tempEnabled: true,
     powerEnabled: true,
-  });
-
-  // ===== Alert Type States =====
-  const [email, setEmail] = useState(true);
-  const [push, setPush] = useState(false);
-  const [inApp, setInApp] = useState(true);
-
-  // ===== Rule Toggle States =====
-  const [tempEnabled, setTempEnabled] = useState(true);
-  const [powerEnabled, setPowerEnabled] = useState(true);
-
-  const [isSuccess, setIsSuccess] = useState(false);
-
-  // ===== Save Handler =====
-  const handleSave = () => {
-    setSavedSettings({
-      tempLimit,
-      powerLimit,
-      email,
-      push,
-      inApp,
-      tempEnabled,
-      powerEnabled,
-    });
-
-    setIsSuccess(true);
-    setTimeout(() => setIsSuccess(false), 3000);
   };
 
-  const isModified =
-    tempLimit !== savedSettings.tempLimit ||
-    powerLimit !== savedSettings.powerLimit ||
-    email !== savedSettings.email ||
-    push !== savedSettings.push ||
-    inApp !== savedSettings.inApp ||
-    tempEnabled !== savedSettings.tempEnabled ||
-    powerEnabled !== savedSettings.powerEnabled;
+  const [settings, setSettings] = useState(initialState);
+  const [savedSettings, setSavedSettings] = useState(initialState);
+  const [isSaving, setIsSaving] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  // Update specific fields dynamically
+  const updateField = (field, value) => {
+    setSettings(prev => ({ ...prev, [field]: value }));
+  };
+
+  // Check if anything has changed
+  const isModified = useMemo(() => {
+    return JSON.stringify(settings) !== JSON.stringify(savedSettings);
+  }, [settings, savedSettings]);
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    // Simulate API Call
+    await new Promise(resolve => setTimeout(resolve, 800));
+    
+    setSavedSettings(settings);
+    setIsSaving(false);
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  };
 
   return (
     <div className="alert-page">
       <header className="page-header">
-        <h1>Alert & Threshold Configuration</h1>
+        <h1>System Thresholds</h1>
+        
       </header>
 
       <div className="alert-card">
-        {/* ===== Temperature Section ===== */}
+        {/* Temperature Section */}
         <section className="alert-section">
           <div className="section-header">
-            <h2>Temperature Alert</h2>
+            <div className="title-with-icon">
+              <Thermometer size={18} className="icon" />
+              <h3>Temperature Alert</h3>
+            </div>
             <label className="switch">
               <input
                 type="checkbox"
-                checked={tempEnabled}
-                onChange={() => setTempEnabled(!tempEnabled)}
+                checked={settings.tempEnabled}
+                onChange={(e) => updateField("tempEnabled", e.target.checked)}
               />
               <span className="slider"></span>
             </label>
           </div>
-
-          <p className="description">
-            Set maximum temperature threshold.
-          </p>
-
-          <div className="input-group">
-            <div className="custom-number-input">
-              <button
-                type="button"
-                className="number-btn"
-                onClick={() =>
-                  setTempLimit(prev => Math.max(-50, prev - 1))
-                }
-                disabled={!tempEnabled}
-              >
-                −
-              </button>
-
-              <input
-                type="number"
-                value={tempLimit}
-                onChange={(e) =>
-                  setTempLimit(
-                    Math.min(200, Math.max(-50, Number(e.target.value)))
-                  )
-                }
-                disabled={!tempEnabled}
-                className="alert-input"
-              />
-
-              <button
-                type="button"
-                className="number-btn"
-                onClick={() =>
-                  setTempLimit(prev => Math.min(200, prev + 1))
-                }
-                disabled={!tempEnabled}
-              >
-                +
-              </button>
-            </div>
-            <span className="unit-label">°C</span>
-          </div>
+          <p className="description">Triggered when ambient temperature exceeds limit.</p>
+          <ThresholdInput 
+            value={settings.tempLimit}
+            onChange={(val) => updateField("tempLimit", val)}
+            unit="°C"
+            min={-50}
+            max={200}
+            disabled={!settings.tempEnabled}
+          />
         </section>
 
-        {/* ===== Power Section ===== */}
+        {/* Power Section */}
         <section className="alert-section">
           <div className="section-header">
-            <h2>Power Usage Alert</h2>
+            <div className="title-with-icon">
+              <Zap size={18} className="icon" />
+              <h3>Power Usage Alert</h3>
+            </div>
             <label className="switch">
               <input
                 type="checkbox"
-                checked={powerEnabled}
-                onChange={() => setPowerEnabled(!powerEnabled)}
+                checked={settings.powerEnabled}
+                onChange={(e) => updateField("powerEnabled", e.target.checked)}
               />
               <span className="slider"></span>
             </label>
           </div>
-
-          <p className="description">
-            Set unusual power usage limit.
-          </p>
-
-          <div className="input-group">
-            <div className="custom-number-input">
-              <button
-                type="button"
-                className="number-btn"
-                onClick={() =>
-                  setPowerLimit(prev => Math.max(0, prev - 10))
-                }
-                disabled={!powerEnabled}
-              >
-                −
-              </button>
-
-              <input
-                type="number"
-                value={powerLimit}
-                onChange={(e) =>
-                  setPowerLimit(
-                    Math.min(10000, Math.max(0, Number(e.target.value)))
-                  )
-                }
-                disabled={!powerEnabled}
-                className="alert-input"
-              />
-
-              <button
-                type="button"
-                className="number-btn"
-                onClick={() =>
-                  setPowerLimit(prev => Math.min(10000, prev + 10))
-                }
-                disabled={!powerEnabled}
-              >
-                +
-              </button>
-            </div>
-            <span className="unit-label">kWh</span>
-          </div>
+          <p className="description">Alerts when consumption spikes above normal levels.</p>
+          <ThresholdInput 
+            value={settings.powerLimit}
+            onChange={(val) => updateField("powerLimit", val)}
+            unit="kWh"
+            min={0}
+            max={10000}
+            step={10}
+            disabled={!settings.powerEnabled}
+          />
         </section>
 
-        {/* ===== Notification Methods ===== */}
+        {/* Notifications Section */}
         <section className="alert-section">
-          <h2>Notification Methods</h2>
-
-          <div className="checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                checked={email}
-                onChange={() => setEmail(!email)}
-              />
-              Email
-            </label>
-
-            <label>
-              <input
-                type="checkbox"
-                checked={push}
-                onChange={() => setPush(!push)}
-              />
-              Push Notification
-            </label>
-
-            <label>
-              <input
-                type="checkbox"
-                checked={inApp}
-                onChange={() => setInApp(!inApp)}
-              />
-              In-App Alert
-            </label>
+          <div className="title-with-icon no-margin">
+            <Bell size={18} className="icon" />
+            <h3>Notification Channels</h3>
+          </div>
+          <div className="checkbox-grid">
+            {['email', 'push', 'inApp'].map((type) => (
+              <label key={type} className="checkbox-item">
+                <input
+                  type="checkbox"
+                  checked={settings[type]}
+                  onChange={(e) => updateField(type, e.target.checked)}
+                />
+                <span className="capitalize">{type.replace('inApp', 'In-App')}</span>
+              </label>
+            ))}
           </div>
         </section>
 
-        {/* ===== Save Section ===== */}
-        <div className="status-container">
-          {isSuccess && (
-            <span className="success-badge">
-              Saved Successfully!
-            </span>
-          )}
-        </div>
-
-        <button
-          className={`save-btn ${isModified ? "active" : "disabled"}`}
-          onClick={handleSave}
-          disabled={!isModified}
-        >
-          {isModified ? "Save Changes" : "No Changes"}
-        </button>
+        {/* Footer Actions */}
+        <footer className="card-footer">
+          <div className="status-message">
+            {showSuccess && (
+              <span className="success-badge">
+                <CheckCircle size={14} /> Changes saved successfully
+              </span>
+            )}
+          </div>
+          
+          <button
+            className={`save-btn ${isModified ? "active" : "disabled"}`}
+            onClick={handleSave}
+            disabled={!isModified || isSaving}
+          >
+            {isSaving ? "Saving..." : isModified ? "Save Changes" : "Up to date"}
+          </button>
+        </footer>
       </div>
     </div>
   );
